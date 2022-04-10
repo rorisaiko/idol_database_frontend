@@ -43,8 +43,8 @@ function createChild(row) {
 			{ title: "Title", data: 0},
 			{ title: "Release Date", data: 3},
 			{ title: "Age", data: null, render: function(data, type, subrow, meta){
-				var birthDate = DateTime.fromISO(rowdata[3]);
-				var releaseDate = DateTime.fromISO(subrow[3]);
+				var birthDate = readDate(rowdata[3]);
+				var releaseDate = readDate(subrow[3]);
 				if (releaseDate.isValid && birthDate.isValid) {
 					var dateDiff = releaseDate.diff(birthDate, ["years", "months", "days"]).toObject();
 					returnHTML = dateDiff["years"] + "y " + dateDiff["months"] + "m";
@@ -52,13 +52,28 @@ function createChild(row) {
 				} else {
 					return "";
 				}
-			}},
-			{ title: "U18 Check", data: 6}
+			}}
 		],
 		order: [[1, 'asc'], [0, 'asc']]
 	});
 
 }
+
+/**
+ * Convert a string to a date
+ * @param {string} dateStr - String to be converted to a date
+ * @returns {Date}
+ */
+function readDate(dateStr) {
+	var DateTime = luxon.DateTime;
+	if (dateStr.includes('/'))
+		return DateTime.fromFormat(dateStr, 'dd/MM/yy');
+	else if (dateStr.includes('-'))
+		return DateTime.fromISO(dateStr);
+	else
+		return false;
+}
+
 
 function destroyChild(row) {
     var table = $("table", row.child());
@@ -108,4 +123,5 @@ function idolTable(mydata) {
             createChild (row);
             tr.addClass('shown');
         }
-    } );}
+    } );
+}
