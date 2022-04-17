@@ -50,7 +50,10 @@ function createChild(row) {
 		data: getMovies(movies, rowdata[0]),
 		columns: [
 			{ title: "Title", data: 0},
-			{ title: "Release Date", data: 3},
+			{ title: "Release Date", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
+				var releaseDate = readDate(subrow[3]);
+				return releaseDate.toISODate();
+			}},
 			{ title: "Age", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
 				var birthDate = readDate(rowdata[3]);
 				var releaseDate = readDate(subrow[3]);
