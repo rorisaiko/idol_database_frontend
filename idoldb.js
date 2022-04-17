@@ -15,6 +15,12 @@ CSV.fetch({
 	$(document).ready(idolTable(mydata));
 });
 
+/**
+ * Filter the movies data by idol name
+ * @param {string[][]} moviesArr - 2d array of movies
+ * @param {string} idol - Idol name
+ * @returns {string[][]} 2d array of movies
+ */
 function getMovies(moviesArr, idol) {
 	var resultArr = new Array();
 	moviesArr.forEach(element => {
@@ -25,6 +31,9 @@ function getMovies(moviesArr, idol) {
 	return resultArr;
 }
 
+/** Create child (movies) rows under an idol row
+ * @param {*} row - a row object from DataTable
+ */
 function createChild(row) {
 	var DateTime = luxon.DateTime;
 	var returnHTML;
@@ -42,7 +51,7 @@ function createChild(row) {
 		columns: [
 			{ title: "Title", data: 0},
 			{ title: "Release Date", data: 3},
-			{ title: "Age", data: null, render: function(data, type, subrow, meta){
+			{ title: "Age", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
 				var birthDate = readDate(rowdata[3]);
 				var releaseDate = readDate(subrow[3]);
 				if (releaseDate.isValid && birthDate.isValid) {
