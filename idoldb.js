@@ -40,10 +40,10 @@ function createChild(row) {
 
 	// Table placeholder
 	var table = $('<table class="display" width="100%"/>')
-	
+
 	// Parent row
 	var rowdata = row.data();
-	
+
 	// Show and initialize the table
 	row.child(table).show();
 	var moviesTable = table.DataTable ({
@@ -86,12 +86,18 @@ function readDate(dateStr) {
 		return false;
 }
 
+function slashDateToISODate(slashDate) {
+	if (slashDate.includes('/'))
+		return luxon.DateTime.fromFormat(slashDate, 'dd/MM/yy').toISODate();
+	else
+		return slashDate;
+}
 
 function destroyChild(row) {
     var table = $("table", row.child());
     table.detach();
     table.DataTable().destroy();
- 
+
     // And then hide the row
     row.child.hide();
 }
@@ -113,7 +119,12 @@ function idolTable(mydata) {
 			{ title: "Japanese Name", data: 1},
 			{ title: "Alias", data: 2},
 			{ title: "DOB", data: 3, render: function(data, type, row, meta) {
-				return ((row[4] == null ? row[4] : row[4].toLowerCase()) == "yes" ? "<font color = 'orange'>" + data + doubtfulIcon + "</font>" : data);
+				var newData = '';
+				if (data === null)
+					newData = '';
+				else
+					newData = slashDateToISODate(data);
+				return ((row[4] == null ? row[4] : row[4].toLowerCase()) == "yes" ? "<font color = 'orange'>" + newData + doubtfulIcon + "</font>" : newData);
 			}},
 			{ title: "Doubtful DOB", data: 4, visible: false}
 		],
@@ -124,7 +135,7 @@ function idolTable(mydata) {
     $('#idols tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
- 
+
         if ( row.child.isShown() ) {
             // This row is already open - close it
             destroyChild (row);
