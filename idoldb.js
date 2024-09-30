@@ -71,7 +71,7 @@ function createChild(row) {
 			{ title: "Name", data: 6},
 			{ title: "Japanese Name", data: 5}
 		],
-		order: [[1, 'asc'], [0, 'asc']]
+		order: [[2, 'asc'], [1, 'asc']]
 	});
 
 }
@@ -120,7 +120,7 @@ function idolTable(mydata) {
 				"data": null,
 				"defaultContent": ''
 			},
-			{ title: "Idol ID", data: 0},
+			{ title: "Idol ID", data: 0, visible: false},
 			{ title: "Name", data: 2},
 			{ title: "Japanese Name", data: 1},
 			{ title: "DOB", data: 3, render: function(data, type, row, meta) {
@@ -132,7 +132,7 @@ function idolTable(mydata) {
 				return newData;
 			}}
 		],
-		order: [[1, 'asc']]
+		order: [[2, 'asc']]
 	});
 
 	// Add click listener
