@@ -49,6 +49,7 @@ function createChild(row) {
 	var moviesTable = table.DataTable ({
 		data: getMovies(movies, rowdata[0]),
 		columns: [
+			{ title: "Code", data: 1},
 			{ title: "Title", data: 2},
 			{ title: "Type", data: 3},
 			{ title: "Release Date", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
@@ -71,7 +72,7 @@ function createChild(row) {
 			{ title: "Name", data: 6},
 			{ title: "Japanese Name", data: 5}
 		],
-		order: [[2, 'asc'], [1, 'asc']]
+		order: [[3, 'asc'], [2, 'asc']]
 	});
 
 }
