@@ -9,7 +9,7 @@ CSV.fetch({
 })
 
 CSV.fetch({
-	url: 'https://raw.githubusercontent.com/ikki123-aidoru/idol_database/main/idols.tsv'
+	url: 'https://raw.githubusercontent.com/rorisaiko/idol_database/main/ji_idol.tsv'
 }).done(function(dataset) {
 	mydata = dataset['records'];
 	$(document).ready(idolTable(mydata));
@@ -115,18 +115,15 @@ function idolTable(mydata) {
 				"data": null,
 				"defaultContent": ''
 			},
-			{ title: "Name", data: 0},
+			{ title: "Idol ID", data: 0},
+			{ title: "Name", data: 2},
 			{ title: "Japanese Name", data: 1},
-			{ title: "Alias", data: 2},
 			{ title: "DOB", data: 3, render: function(data, type, row, meta) {
 				var newData = '';
 				if (data === null)
 					newData = '';
-				else
-					newData = slashDateToISODate(data);
-				return ((row[4] == null ? row[4] : row[4].toLowerCase()) == "yes" ? "<font color = 'orange'>" + newData + doubtfulIcon + "</font>" : newData);
-			}},
-			{ title: "Doubtful DOB", data: 4, visible: false}
+				return newData;
+			}}
 		],
 		order: [[1, 'asc']]
 	});
