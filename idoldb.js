@@ -3,7 +3,7 @@ const doubtfulIcon = ' <svg xmlns="http://www.w3.org/2000/svg" width="16" height
 
 var mydata, movies;
 CSV.fetch({
-	url:'https://raw.githubusercontent.com/ikki123-aidoru/idol_database/main/movies.tsv'
+	url:'https://raw.githubusercontent.com/rorisaiko/idol_database/main/ji_title.tsv'
 }).done(function(dataset) {
 	movies = dataset['records'];
 })
@@ -24,7 +24,7 @@ CSV.fetch({
 function getMovies(moviesArr, idol) {
 	var resultArr = new Array();
 	moviesArr.forEach(element => {
-		if (element[4] == idol) {
+		if (element[0] == idol) {
 			resultArr.push(element);
 		}
 	})
@@ -49,22 +49,25 @@ function createChild(row) {
 	var moviesTable = table.DataTable ({
 		data: getMovies(movies, rowdata[0]),
 		columns: [
-			{ title: "Title", data: 0},
+			{ title: "Title", data: 2},
+			{ title: "Type", data: 3},
 			{ title: "Release Date", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
-				var releaseDate = readDate(subrow[3]);
+				var releaseDate = readDate(subrow[4]);
 				return releaseDate.toISODate();
 			}},
 			{ title: "Age", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
 				var birthDate = readDate(rowdata[3]);
-				var releaseDate = readDate(subrow[3]);
+				var releaseDate = readDate(subrow[4]);
 				if (releaseDate.isValid && birthDate.isValid) {
 					var dateDiff = releaseDate.diff(birthDate, ["years", "months", "days"]).toObject();
 					returnHTML = dateDiff["years"] + "y " + dateDiff["months"] + "m";
-					return (rowdata[4] != null && rowdata[4].toLowerCase() == "yes" ? "<font color = 'orange'>" + returnHTML + doubtfulIcon + "</font>" : returnHTML);
+					return (returnHTML);
 				} else {
 					return "";
 				}
-			}}
+			}},
+			{ title: "Name", data: 6},
+			{ title: "Japanese Name", data: 5}
 		],
 		order: [[1, 'asc'], [0, 'asc']]
 	});
