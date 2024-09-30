@@ -125,6 +125,8 @@ function idolTable(mydata) {
 				var newData = '';
 				if (data === null)
 					newData = '';
+				else
+					newData = data;
 				return newData;
 			}}
 		],
