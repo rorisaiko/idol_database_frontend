@@ -57,8 +57,12 @@ function createChild(row) {
 				return releaseDate.toISODate();
 			}},
 			{ title: "Age", data: null, render: function(data, type, subrow, meta){ // subrow is based on the data option above
-				if (rowdata[3] === null || subrow[4] === null)
-					return "";
+				if (rowdata[3] === null || subrow[4] === null) {
+					if (subrow[7] !== "NULL")
+						return subrow[7];
+					else
+						return "";
+				}
 				var birthDate = readDate(rowdata[3]);
 				var releaseDate = readDate(subrow[4]);
 				if (releaseDate.isValid && birthDate.isValid) {
